@@ -1,0 +1,24 @@
+{
+  "name": "glennbot",
+  "version": "0.0.1",
+  "description": "Glennbot",
+  "main": "glennbot.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/grundose/glennbot.git"
+  },
+  "author": "Glenn Hall, Tom Keller",
+  "license": "UNLICENSED",
+  "private": true,
+  "bugs": {
+    "url": "https://github.com/grundose/glennbot/issues"
+  },
+  "homepage": "https://github.com/grundose/glennbot#readme",
+  "dependencies": {
+    "discord.js": "^11.1.0",
+    "nconf": "^0.8.4"
+  }
+}
