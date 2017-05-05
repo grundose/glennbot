@@ -30,24 +30,24 @@ client.on('ready', () => {
 
 //Tells trent to shutup when he says something
 client.on('message', message => {
-  if (message.author.username === 'grund') {
+  if (message.author.username === 'trent') {
     message.reply('Shutup Trent');
   }
 });
 
 //Tells Trent we dont want to see his link
 client.on('message', message => {
-  if (message.author.username === 'grund' && message.content.substring(0, 4) === 'http') {
-    message.reply('No ones going to look at your link Trent');
+  if (message.author.username === 'trent' && message.content.substring(0, 4) === 'http') {
+    message.reply('No ones going to look at your stupid link Trent');
   }
 });
 
-client.on('userconnection', userconnection => {
+/*client.on('userconnection', userconnection => {
   if (userconnection.name ==='grund') {
     message.send('No ones going to look at your link Trent');
     console.log(userconnection.name);
   }
-});
+});*/
 
 //Message Logging
 client.on('message', message => {
