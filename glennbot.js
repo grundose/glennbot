@@ -41,7 +41,7 @@ for(i in nolink) {
 
 //Discord client events
 client.on('ready', () => {
-  client.user.setPresence({status: 'online', game: {name: 'fuck trent', type: 'wut'}});
+  client.user.setPresence({status: 'online', game: {name: 'Fuck Trent', type: 'wut'}});
   console.log(client.user.status, client.user.presence);
   console.log(`Logged in as ${client.user.id}`);
   console.log('Bot is authorized.');
@@ -50,14 +50,14 @@ client.on('ready', () => {
 
 //Tells trent to shutup when he says something
 client.on('message', message => {
-  if (message.author.username === 'trent') {
+  if (message.author.username === 'Trent8688') {
     message.reply('Shutup Trent');
   }
 });
 
 //Tells Trent we dont want to see his link
 client.on('message', message => {
-  if (message.author.username === 'trent' && message.content.substring(0, 4) === 'http') {
+  if (message.author.username === 'Trent8688' && message.content.substring(0, 4) === 'http') {
     message.reply('No ones going to look at your stupid link Trent');
   }
 });
