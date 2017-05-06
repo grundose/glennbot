@@ -50,16 +50,17 @@ client.on('ready', () => {
 
 //Tells trent to shutup when he says something
 client.on('message', message => {
-  if (message.author.username === 'Trent8688') {
-    message.reply('Shutup Trent');
-  }
-});
-
-//Tells Trent we dont want to see his link
-client.on('message', message => {
   if (message.author.username === 'Trent8688' && message.content.substring(0, 4) === 'http') {
-    message.reply('No ones going to look at your stupid link Trent');
+    var response= nolink[Math.floor(Math.random() * (Math.floor(nolink.length -1)))]
+    message.reply(response);
   }
+//He talked but didn't send a link, be mean to him anyway
+  else if (message.author.username === 'Trent8688') {
+    var response= shutup[Math.floor(Math.random() * (Math.floor(shutup.length -1)))]
+    message.reply(response);
+  }
+//A respectable human talked, do nothing
+  else{}
 });
 
 /*client.on('userconnection', userconnection => {
