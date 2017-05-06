@@ -25,16 +25,14 @@ client.login(nconf.get('bot_token'))
     process.exit(1);
   });
 
+//Discord client events
 client.on('ready', () => {
   client.user.setPresence({status: 'online', game: {name: 'fuck trent'}});
   console.log(client.user.status, client.user.presence);
   console.log(`Logged in as ${client.user.id}`);
-});
-
-//Discord client events
-client.on('ready', () => {
   console.log('Bot is authorized.');
 });
+
 
 //Tells trent to shutup when he says something
 client.on('message', message => {
