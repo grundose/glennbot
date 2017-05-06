@@ -2,6 +2,8 @@ const Discord = require('discord.js');
 const client = new Discord.Client();
 const nconf = require('nconf');
 
+var active = 0
+
 //Load configuration, either from environment or file
 nconf.argv()
   .env()
@@ -22,6 +24,12 @@ client.login(nconf.get('bot_token'))
     console.error(err);
     process.exit(1);
   });
+
+client.on('ready', () => {
+  client.user.setPresence({status: 'online', game: {name: 'fuck trent'}});
+  console.log(client.user.status, client.user.presence);
+  console.log(`Logged in as ${client.user.id}`);
+});
 
 //Discord client events
 client.on('ready', () => {
@@ -48,6 +56,7 @@ client.on('message', message => {
     console.log(userconnection.name);
   }
 });*/
+
 
 //Message Logging
 client.on('message', message => {
