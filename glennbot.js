@@ -1,8 +1,9 @@
+'use strict';
+
 const Discord = require('discord.js');
 const client = new Discord.Client();
 const nconf = require('nconf');
-var fs = require('fs');
-var active = 0
+const fs = require('fs');
 
 //Load configuration, either from environment or file
 nconf.argv()
@@ -26,18 +27,29 @@ client.login(nconf.get('bot_token'))
   });
 
 
-//Read in shutup array
-var shutup = fs.readFileSync('shutup.txt').toString().split("\n");
-for(i in shutup) {
-    console.log(shutup[i]);
+//Read in insults async
+var processFile = function (filename) {
+  fs.readFile(filename, 'utf8', (err, contents) => {
+    if(err) {
+      console.error(`Could not read ${filename}!`);
+      console.error(err);
+    } else {
+      var data = contents.toString().split("\n");
+      console.info(filename);
+      for(let i in data) { console.info(`  ${data[i]}`); }
+      console.info();
+      return data;
+    }
+  });
+};
+var shutup = {};
+var nolink = {};
+if(fs.existsSync('insults/shutup.txt')) {
+  shutup = processFile('insults/shutup.txt');
 }
-
-//Read in nolink array
-var nolink = fs.readFileSync('nolink.txt').toString().split("\n");
-for(i in nolink) {
-    console.log(nolink[i]);
+if(fs.existsSync('insults/nolink.txt')) {
+  nolink = processFile('insults/nolink.txt');
 }
-
 
 //Discord client events
 client.on('ready', () => {
@@ -47,29 +59,22 @@ client.on('ready', () => {
   console.log('Bot is authorized.');
 });
 
-
 //Tells trent to shutup when he says something
 client.on('message', message => {
-  if (message.author.username === 'Trent8688' && message.content.substring(0, 4) === 'http') {
-    var response= nolink[Math.floor(Math.random() * (Math.floor(nolink.length -1)))]
-    message.reply(response);
+  if(nolink.length > 0) {
+    if (message.author.username === 'Trent8688' && message.content.substring(0, 4) === 'http') {
+      var response = nolink[Math.floor(Math.random() * (Math.floor(nolink.length -1)))]
+      message.reply(response);
+    }
   }
 //He talked but didn't send a link, be mean to him anyway
-  else if (message.author.username === 'Trent8688') {
-    var response= shutup[Math.floor(Math.random() * (Math.floor(shutup.length -1)))]
-    message.reply(response);
+  if(shutup.length > 0) {
+    if (message.author.username === 'Trent8688') {
+      var response = shutup[Math.floor(Math.random() * (Math.floor(shutup.length -1)))]
+      message.reply(response);
+    }
   }
-//A respectable human talked, do nothing
-  else{}
 });
-
-/*client.on('userconnection', userconnection => {
-  if (userconnection.name ==='grund') {
-    message.send('No ones going to look at your link Trent');
-    console.log(userconnection.name);
-  }
-});*/
-
 
 //Message Logging
 client.on('message', message => {
