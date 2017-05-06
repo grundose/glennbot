@@ -1,7 +1,9 @@
+'use strict';
+
 const Discord = require('discord.js');
 const client = new Discord.Client();
 const nconf = require('nconf');
-var fs = require('fs');
+const fs = require('fs');
 var active = 0
 
 //Load configuration, either from environment or file
