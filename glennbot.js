@@ -1,6 +1,8 @@
 const Discord = require('discord.js');
 const client = new Discord.Client();
 const nconf = require('nconf');
+var fs = require('fs');
+var active = 0
 
 //Load configuration, either from environment or file
 nconf.argv()
@@ -23,10 +25,28 @@ client.login(nconf.get('bot_token'))
     process.exit(1);
   });
 
+
+//Read in shutup array
+var shutup = fs.readFileSync('shutup.txt').toString().split("\n");
+for(i in shutup) {
+    console.log(shutup[i]);
+}
+
+//Read in nolink array
+var nolink = fs.readFileSync('nolink.txt').toString().split("\n");
+for(i in nolink) {
+    console.log(nolink[i]);
+}
+
+
 //Discord client events
 client.on('ready', () => {
+  client.user.setPresence({status: 'online', game: {name: 'fuck trent', type: 'wut'}});
+  console.log(client.user.status, client.user.presence);
+  console.log(`Logged in as ${client.user.id}`);
   console.log('Bot is authorized.');
 });
+
 
 //Tells trent to shutup when he says something
 client.on('message', message => {
@@ -49,6 +69,9 @@ client.on('message', message => {
   }
 });*/
 
+
 //Message Logging
 client.on('message', message => {
-  console.log(message.content, message.author.username)});
+  console.log(message.content, message.author.username, message.mentions.users.id)});
+
+
