@@ -1,4 +1,4 @@
-'use strict';
+"use strict";
 
 const Discord = require('discord.js');
 const client = new Discord.Client();
@@ -26,29 +26,32 @@ client.login(nconf.get('bot_token'))
     process.exit(1);
   });
 
-
-//Read in insults async
-var processFile = function (filename) {
-  fs.readFile(filename, 'utf8', (err, contents) => {
-    if(err) {
-      console.error(`Could not read ${filename}!`);
-      console.error(err);
-    } else {
-      var data = contents.toString().split("\n");
-      console.info(filename);
-      for(let i in data) { console.info(`  ${data[i]}`); }
-      console.info();
-      return data;
-    }
-  });
+var processFileAsync = (filename) => {
+    return new Promise((resolve, reject) => {
+        fs.readFile(filename, 'utf8', (err, contents) => {
+            if (err) {
+                reject(err);
+            } else {
+                var data = contents.toString().split("\n");
+                resolve(data);
+            }
+        });
+    });
 };
+
 var shutup = {};
 var nolink = {};
-if(fs.existsSync('insults/shutup.txt')) {
-  shutup = processFile('insults/shutup.txt');
+
+if (fs.existsSync('insults/shutup.txt')) {
+    processFileAsync('insults/shutup.txt').then(data => {
+        shutup = data;
+    });
 }
-if(fs.existsSync('insults/nolink.txt')) {
-  nolink = processFile('insults/nolink.txt');
+
+if (fs.existsSync('insults/nolink.txt')) {
+    processFileAsync('insults/nolink.txt').then(data => {
+        nolink = data;
+    });
 }
 
 //Discord client events
@@ -62,7 +65,7 @@ client.on('ready', () => {
 //Tells trent to shutup when he says something
 client.on('message', message => {
   if(nolink.length > 0) {
-    if (message.author.username === 'Trent8688' && message.content.substring(0, 4) === 'http') {
+    if (message.author.username === 'grund' && message.content.substring(0, 4) === 'http') {
       var response = nolink[Math.floor(Math.random() * (Math.floor(nolink.length -1)))]
       message.reply(response);
     }
@@ -78,6 +81,6 @@ client.on('message', message => {
 
 //Message Logging
 client.on('message', message => {
-  console.log(message.content, message.author.username, message.mentions.users.id)});
+  console.log(message.content, message.author.username, message.mentions.users)});
 
 
