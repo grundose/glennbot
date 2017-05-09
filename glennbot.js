@@ -4,6 +4,7 @@ const Discord = require('discord.js');
 const client = new Discord.Client();
 const nconf = require('nconf');
 const fs = require('fs');
+const { randomArrayValue } = require('./util/random');
 
 //Load configuration, either from environment or file
 nconf.argv()
@@ -20,10 +21,10 @@ if(typeof nconf.get('bot_token') === 'undefined' || typeof nconf.get('bot_token'
 process.stdout.write('Logging in to discord with token... ');
 client.login(nconf.get('bot_token'))
   .then(console.log('GREAT SUCCESS!'))
-  .catch(function(err) {
-    console.log('FAILED!');
-    console.error(err);
-    process.exit(1);
+  .catch(err => {
+      console.log('FAILED!');
+      console.error(err);
+      process.exit(1);
   });
 
 var processFileAsync = (filename) => {
@@ -43,15 +44,15 @@ var shutup = {};
 var nolink = {};
 
 if (fs.existsSync('insults/shutup.txt')) {
-    processFileAsync('insults/shutup.txt').then(data => {
-        shutup = data;
-    });
+  processFileAsync('insults/shutup.txt').then(data => {
+    shutup = data;
+  });
 }
 
 if (fs.existsSync('insults/nolink.txt')) {
-    processFileAsync('insults/nolink.txt').then(data => {
-        nolink = data;
-    });
+  processFileAsync('insults/nolink.txt').then(data => {
+    nolink = data;
+  });
 }
 
 //Discord client events
@@ -66,21 +67,29 @@ client.on('ready', () => {
 client.on('message', message => {
   if(nolink.length > 0) {
     if (message.author.username === 'grund' && message.content.substring(0, 4) === 'http') {
-      var response = nolink[Math.floor(Math.random() * (Math.floor(nolink.length -1)))]
+      var response = randomArrayValue(nolink);
       message.reply(response);
     }
   }
 //He talked but didn't send a link, be mean to him anyway
   if(shutup.length > 0) {
-    if (message.author.username === 'Trent8688') {
-      var response = shutup[Math.floor(Math.random() * (Math.floor(shutup.length -1)))]
+    if (message.author.username === 'Eric') {
+      var response = randomArrayValue(shutup);
       message.reply(response);
     }
   }
 });
 
+// Sends original message after an edit
+client.on('messageUpdate', (original, updated) => {
+  if (original.author.username === 'grund') {
+    console.log(`Original: ${original.content}`);
+    console.log(`Updated: ${updated.content}`);
+    updated.reply(`Nice try: \n\`\`\`${original.content}\`\`\``);
+  }
+});
+
 //Message Logging
 client.on('message', message => {
-  console.log(message.content, message.author.username, message.mentions.users)});
-
-
+  console.log(message.content, message.author.username)
+});
