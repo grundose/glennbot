@@ -65,7 +65,7 @@ client.on('ready', () => {
 
 
 //Setting global var targetuser for the userid of who to 'troll'
-var targetuser = 'grund'
+var targetuser = 'Trent8688'
 
 
 //Tells trent to shutup when he says something
