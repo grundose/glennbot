@@ -63,17 +63,22 @@ client.on('ready', () => {
   console.log('Bot is authorized.');
 });
 
+
+//Setting global var targetuser for the userid of who to 'troll'
+var targetuser = 'grund'
+
+
 //Tells trent to shutup when he says something
 client.on('message', message => {
   if(nolink.length > 0) {
-    if (message.author.username === 'grund' && message.content.substring(0, 4) === 'http') {
+    if (message.author.username === targetuser && message.content.substring(0, 4) === 'http') {
       var response = randomArrayValue(nolink);
       message.reply(response);
     }
   }
 //He talked but didn't send a link, be mean to him anyway
   if(shutup.length > 0) {
-    if (message.author.username === 'Eric') {
+    if (message.author.username === targetuser ) {
       var response = randomArrayValue(shutup);
       message.reply(response);
     }
@@ -82,7 +87,7 @@ client.on('message', message => {
 
 // Sends original message after an edit
 client.on('messageUpdate', (original, updated) => {
-  if (original.author.username === 'grund') {
+  if (original.author.username === 'targetuser') {
     console.log(`Original: ${original.content}`);
     console.log(`Updated: ${updated.content}`);
     updated.reply(`Nice try: \n\`\`\`${original.content}\`\`\``);
