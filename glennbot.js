@@ -87,7 +87,7 @@ client.on('message', message => {
 
 // Sends original message after an edit
 client.on('messageUpdate', (original, updated) => {
-  if (original.author.username === 'targetuser') {
+  if (original.author.username === targetuser) {
     console.log(`Original: ${original.content}`);
     console.log(`Updated: ${updated.content}`);
     updated.reply(`Nice try: \n\`\`\`${original.content}\`\`\``);
