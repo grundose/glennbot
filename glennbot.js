@@ -65,7 +65,7 @@ client.on('ready', () => {
 
 
 //Setting global var targetuser for the userid of who to 'troll'
-var targetUser = 'grund'
+var targetUser = 'Trent8688'
 var prefix = '?';
 
 //Tells trent to shutup when he says something
@@ -74,6 +74,7 @@ client.on('message', message => {
     if (message.author.bot) return;
 
     if (message.content.startsWith(`${prefix}settarget`)) {
+
         if (message.author.username === targetUser) {
             message.reply('No can do.');
             return;
@@ -89,6 +90,11 @@ client.on('message', message => {
         // Exit early for now
         return;
     }
+
+    if  (`${message.mentions.users.first()}` == `<@${client.user.id}>`) {
+        message.reply('hello');
+    }
+
     // He sent a link
     if (message.author.username === targetUser && message.content.substring(0, 4) === 'http') {
         var response = randomArrayValue(nolink);
@@ -114,4 +120,6 @@ client.on('messageUpdate', (original, updated) => {
 client.on('message', message => {
     console.log(message.content, message.author.username);
     console.log(`Mentions: ${message.mentions.users.first()}`);
+    console.log(message.author.username.roles);;
+    console.log(`${message.mentions.users.first()}`)
 });
