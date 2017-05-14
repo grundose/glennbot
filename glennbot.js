@@ -5,7 +5,6 @@ const client = new Discord.Client();
 const nconf = require('nconf');
 const fs = require('fs');
 const { randomArrayValue } = require('./util/random');
-
 //Load configuration, either from environment or file
 nconf.argv()
     .env()
@@ -105,7 +104,22 @@ client.on('message', message => {
         var response = randomArrayValue(shutup);
         message.reply(response);
     }
+
+});    
+
+client.on('message', message => {
+if (message.content.startsWith(`${prefix}imgur`)) {
+var imgurlink = require('./util/imgur');
+var arr = message.content.match(/\S+/gi)
+var subReddit = arr[1]
+    imgurlink.imgur(`${subReddit}`).then(data => {
+    imgurlink = data;
+    message.reply(imgurlink);    
+
 });
+}
+});
+
 
 // Sends original message after an edit
 client.on('messageUpdate', (original, updated) => {
@@ -115,6 +129,7 @@ client.on('messageUpdate', (original, updated) => {
         updated.reply(`Nice try: \n\`\`\`${original.content}\`\`\``);
     }
 });
+
 
 //Message Logging
 client.on('message', message => {
