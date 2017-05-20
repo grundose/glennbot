@@ -120,6 +120,18 @@ var subReddit = arr[1]
 }
 });
 
+client.on('message', message => {
+if (message.content.startsWith(`${prefix}trump`)) {
+var trumpquote = require('./util/trump');
+    trumpquote.quote().then(data => {
+    trumpquote = data;
+    message.reply(`${trumpquote} --Donald J. Trump`);
+
+
+});
+}
+});
+
 
 // Sends original message after an edit
 client.on('messageUpdate', (original, updated) => {
@@ -134,7 +146,4 @@ client.on('messageUpdate', (original, updated) => {
 //Message Logging
 client.on('message', message => {
     console.log(message.content, message.author.username);
-    console.log(`Mentions: ${message.mentions.users.first()}`);
-    console.log(message.author.username.roles);;
-    console.log(`${message.mentions.users.first()}`)
 });
