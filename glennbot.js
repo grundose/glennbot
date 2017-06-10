@@ -104,7 +104,9 @@ client.on('message', message => {
         var response = randomArrayValue(shutup);
         message.reply(response);
     }
-
+    if (message.content.startsWith(`${prefix}help`)) {
+       message.reply('current supported commands\n?help\n?imgur <subreddit>\n?trump')
+    }
 });    
 
 client.on('message', message => {
