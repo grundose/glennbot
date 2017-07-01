@@ -56,7 +56,7 @@ if (fs.existsSync('insults/nolink.txt')) {
 
 //Discord client events
 client.on('ready', () => {
-    client.user.setPresence({ status: 'online', game: { name: 'Fuck Trent', type: 'wut' } });
+    client.user.setPresence({ status: 'online', game: { name: 'grundlebot.tk', type: 'wut' } });
     console.log(client.user.status, client.user.presence);
     console.log(`Logged in as ${client.user.id}`);
     console.log('Bot is authorized.');
